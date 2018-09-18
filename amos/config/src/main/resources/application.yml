@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 9999
 
 spring:
   application:
@@ -9,5 +9,12 @@ spring:
       server:
         git:
           uri: https://github.com/endyzhu/SpringcloudConfig/
-          search-paths: config
+          searchPaths: config
+          username:
+          password:
+      label: master
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
 
