@@ -1,0 +1,13 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/endyzhu/SpringcloudConfig/
+          search-paths: config
+
