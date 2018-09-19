@@ -19,15 +19,20 @@ public class BaseinfoApplication {
     public static void main(String[] args) {
         SpringApplication.run(BaseinfoApplication.class, args);
     }
+
     @Value("${foo.test}")
     String foo;
+    
     @RequestMapping("/sayhi")
     public String sayHi(HttpServletRequest request){
         HttpSession session = request.getSession();
+        String sessionId = session.getId();
         String username = (String) session.getAttribute("userinfo");
+        System.out.println("获取session信息为："+username);
         if (StringUtils.isEmpty(username)){
-            username = ""+System.currentTimeMillis();
-            request.setAttribute("userinfo",username);
+            username = sessionId;
+            System.out.println("获取session信息为空!");
+            request.getSession().setAttribute("userinfo",sessionId);
         }
         return "hello " + username;
     }

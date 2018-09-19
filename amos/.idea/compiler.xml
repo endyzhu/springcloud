@@ -9,11 +9,10 @@
         <module name="baseinfo" />
         <module name="config" />
         <module name="eureka" />
+        <module name="zuul" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="zuul" target="1.8" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8" />
   </component>
   <component name="JavacSettings">
     <option name="PREFER_TARGET_JDK_COMPILER" value="false" />
