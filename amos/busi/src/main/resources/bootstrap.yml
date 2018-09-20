@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: busi
+  cloud:
+    config:
+      label: master
+      name: baseinfo-dev
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: config-server
+
+server:
+  port: 7891
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+

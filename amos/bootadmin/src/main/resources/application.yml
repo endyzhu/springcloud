@@ -1,0 +1,19 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka
+
+server:
+  port: 5000
+logging:
+  file: "logs/boot-admin-sample.log"
+spring:
+  application:
+    name: boot-admin
+
+boot:
+  admin:
+    routes: endpoints:env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+management:
+  security:
+    enabled: false
