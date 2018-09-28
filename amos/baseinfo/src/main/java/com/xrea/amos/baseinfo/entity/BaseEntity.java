@@ -2,10 +2,19 @@ package com.xrea.amos.baseinfo.entity;
 
 import com.xrea.amos.baseinfo.base.Column;
 import com.xrea.amos.baseinfo.base.Id;
+import com.xrea.amos.baseinfo.base.SystemConst;
+import com.xrea.amos.baseinfo.util.CommUtil;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author zhuqb
+ */
+@Data
 public class BaseEntity implements Serializable {
 
     private String id;
@@ -14,67 +23,23 @@ public class BaseEntity implements Serializable {
 
     private String modifier;
 
-    private Integer isDel;
+    private Integer isDel = SystemConst.IsDelEnum.IS_DEL_NO.getIndex();
 
-    private Integer status;
+    private Integer status = SystemConst.StatusEnum.STATUS_ACTIVE.getindex();
 
-    private Date createtime;
+    private Date createtime = new Date();
 
-    private Date modifytime;
-    @Id(value = "id")
-    public String getId() {
-        return id;
-    }
+    private Date modifytime = new Date();
 
-    public void setId(String id) {
-        this.id = id;
-    }
-    @Column(value = "creater")
-    public String getCreater() {
-        return creater;
-    }
-
-    public void setCreater(String creater) {
-        this.creater = creater;
-    }
-    @Column(value = "modifier")
-    public String getModifier() {
-        return modifier;
+    /**
+     * 判断是否是新的
+     * @return true 是新的  false 不是新的
+     */
+    public boolean isNew(){
+        if (CommUtil.isNullOrEmpty(this.id)){
+            return true;
+        }
+        return false;
     }
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
-    @Column(value = "is_del")
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-    @Column(value = "status")
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-    @Column(value = "createtime")
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-    @Column(value = "modifytime")
-    public Date getModifytime() {
-        return modifytime;
-    }
-
-    public void setModifytime(Date modifytime) {
-        this.modifytime = modifytime;
-    }
 }

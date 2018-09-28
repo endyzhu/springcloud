@@ -1,17 +1,17 @@
 package com.xrea.amos.baseinfo.mapper;
 
-import com.xrea.amos.baseinfo.entity.Account;
+import com.xrea.amos.baseinfo.entity.AccountEntity;
 
 public interface AccountMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(Account record);
+    int insert(AccountEntity record);
 
-    int insertSelective(Account record);
+    int insertSelective(AccountEntity record);
 
-    Account selectByPrimaryKey(String id);
+    AccountEntity selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(Account record);
+    int updateByPrimaryKeySelective(AccountEntity record);
 
-    int updateByPrimaryKey(Account record);
+    int updateByPrimaryKey(AccountEntity record);
 }

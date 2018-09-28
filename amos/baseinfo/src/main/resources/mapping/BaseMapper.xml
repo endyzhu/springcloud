@@ -13,4 +13,151 @@
         </foreach>
         )
     </insert>
+    <!--根据条件修改-->
+    <update id="updateByCondition" parameterType="java.util.HashMap">
+        update ${TABLE_NAME}
+        <set>
+            <foreach item="columnValue" index="columnName" collection="UPDATE_COLUM_VALUE"
+                     separator=",">
+                ${columnName} = #{columnValue}
+            </foreach>
+        </set>
+        <where>
+            <if test="WHERE_PARAM != null">
+                ${WHERE_PARAM}
+            </if>
+        </where>
+    </update>
+
+    <!--修改-->
+    <update id="updateById" parameterType="java.util.HashMap">
+        update ${TABLE_NAME}
+        <set>
+            <foreach item="columnValue" index="columnName" collection="UPDATE_COLUM_VALUE"
+                     separator=",">
+                ${columnName} = #{columnValue}
+            </foreach>
+        </set>
+        <where>
+            id = #{ID}
+        </where>
+    </update>
+
+    <!--根据id获取对象数据-->
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultType="java.util.HashMap">
+        SELECT
+        <foreach item="columnName" index="index" collection="columnNames"
+                 separator=",">
+            ${columnName}
+        </foreach>
+        FROM ${TABLE_NAME} WHERE id = #{primaryValue} AND is_del = 0
+    </select>
+
+    <!--批量插入-->
+    <insert id="insertBatch" parameterType="java.util.Map">
+        INSERT INTO ${TABLE_NAME}
+        <foreach item="columnName" index="index" collection="columnNames"
+                 open="(" separator="," close=")">
+            ${columnName}
+        </foreach>
+        VALUES
+        <foreach item="ormColumns" index="rowIndex" collection="dataList"
+                 separator=",">
+            <foreach item="ormColumn" index="columnIndex" collection="ormColumns"
+                     open="(" separator="," close=")">
+                <if test="ormColumn.jdbcType == null">
+                    #{ormColumn.columnValue}
+                </if>
+                <if test="ormColumn.jdbcType != null">
+                    #{ormColumn.columnValue,jdbcType=${ormColumn.jdbcType} }
+                </if>
+            </foreach>
+        </foreach>
+    </insert>
+
+    <!--根据条件逻辑删除-->
+    <update id="deleteByCondition" parameterType="java.util.Map">
+        UPDATE ${TABLE_NAME}
+        <set>
+            is_del=1,modtime=#{delTime}
+        </set>
+        WHERE ${WHERE_PARAM}
+    </update>
+
+    <update id="deleteById" parameterType="java.util.Map">
+        UPDATE ${TABLE_NAME}
+        <set>
+            is_del=1,modtime=#{delTime}
+        </set>
+        WHERE id = #{ID}
+    </update>
+
+    <!--根据条件查询数据-->
+    <select id="selectByCondition" parameterType="java.util.Map" resultType="java.util.HashMap">
+        SELECT
+        <if test="distinct">
+            DISTINCT
+        </if>
+        <foreach item="columnName" index="index" collection="columnNames"
+                 separator=",">
+            ${columnName}
+        </foreach>
+        FROM ${TABLE_NAME}
+        <!-- JOIN -->
+        <if test="joinExps != null and joinExps.size() > 0">
+            <foreach item="joinExp" index="index" collection = "joinExps" separator=" ">
+                <if test="joinExp != null">
+                    ${joinExp}
+                </if>
+            </foreach>
+        </if>
+        <!-- WHERE -->
+        <where>
+            <if test="whereExp != null">
+                ${WHERE_PARAM}
+            </if>
+        </where>
+        <!-- GROUP BY -->
+        <if test="groupColumnNames != null and groupColumnNames.size() > 0">
+            GROUP BY
+            <foreach item="groupColumnName" index="index" collection = "groupColumnNames" separator=",">
+                ${groupColumnName}
+            </foreach>
+            <!-- HAVINV -->
+            <if test="havingExp != null">
+                HAVING ${havingExp}
+            </if>
+        </if>
+        <!-- ORDER BY -->
+        <if test="orderExp != null">
+            ORDER BY ${orderExp}
+        </if>
+
+    </select>
+
+    <select id="countByCondtion" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM ${TABLE_NAME}
+        <!-- JOIN -->
+        <if test="joinExps != null and joinExps.size() > 0">
+            <foreach item="joinExp" index="index" collection = "joinExps" separator=" ">
+                <if test="joinExp != null">
+                    ${joinExp}
+                </if>
+            </foreach>
+        </if>
+        <where>
+            <if test="WHERE_PARAM != null">
+                ${WHERE_PARAM}
+            </if>
+        </where>
+    </select>
+
+    <!--根据条件查询数据-->
+    <select id="selectBySql" parameterType="java.lang.String" resultType="java.util.HashMap">
+       ${value}
+    </select>
+
+    <update id="physicallyDeleted" parameterType="java.util.Map">
+        delete from ${tableName}   WHERE ${WHERE_PARAM}
+    </update>
 </mapper>
